@@ -1,0 +1,30 @@
+import java.util.*;
+
+public class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums); // Sort to group duplicates
+        backtrack(nums, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    private void backtrack(int[] nums, int start,
+                           List<Integer> path, List<List<Integer>> result) {
+        result.add(new ArrayList<>(path)); // Add current subset
+
+        for (int i = start; i < nums.length; i++) {
+            // Skip duplicates
+            if (i > start && nums[i] == nums[i - 1]) continue;
+
+            // Choose
+            path.add(nums[i]);
+
+            // Explore
+            backtrack(nums, i + 1, path, result);
+
+            // Un-choose (backtrack)
+            path.remove(path.size() - 1);
+        }
+    }
+}
+   
